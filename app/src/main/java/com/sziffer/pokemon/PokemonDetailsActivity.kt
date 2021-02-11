@@ -26,6 +26,7 @@ class PokemonDetailsActivity : AppCompatActivity(), PokemonDetailsCallback {
         PokemonManager.getPokemonDetails()
     }
 
+    // Called by the Manager class when the api call is done
     @SuppressLint("SetTextI18n")
     override fun pokemonDetailsFetched(pokemon: PokemonDetails?) {
         if (pokemon == null) {
@@ -44,7 +45,7 @@ class PokemonDetailsActivity : AppCompatActivity(), PokemonDetailsCallback {
         }
         binding.abilitiesTextView.text = abilities
     }
-
+    //when the user presses the back button, notifies the Manager to cancel any pending request.
     override fun onBackPressed() {
         PokemonManager.cancelDetailsCall()
         super.onBackPressed()

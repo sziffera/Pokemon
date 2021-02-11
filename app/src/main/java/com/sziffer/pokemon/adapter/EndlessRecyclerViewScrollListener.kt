@@ -8,25 +8,15 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 /**
  * Info: https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews-and-RecyclerView
  */
-abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener {
+abstract class EndlessRecyclerViewScrollListener(layoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
     private var visibleThreshold = 5 // The minimum amount of items to have below of the current scroll position before loading more.
     private var currentPage = 0     // The current offset index of data loaded
     private var previousTotalItemCount = 0     // The total number of items in the dataset after the last load
     private var loading = true     // True if we are still waiting for the last set of data to load.
     private val startingPageIndex = 0     // Sets the starting page index
-    private var layoutManager: RecyclerView.LayoutManager
+    private var layoutManager: RecyclerView.LayoutManager = layoutManager
 
-    constructor(layoutManager: LinearLayoutManager) {
-        this.layoutManager = layoutManager
-    }
-
-    constructor(layoutManager: GridLayoutManager) {
-        this.layoutManager = layoutManager
-        visibleThreshold *= layoutManager.spanCount
-    }
-
-    constructor(layoutManager: StaggeredGridLayoutManager) {
-        this.layoutManager = layoutManager
+    init {
         visibleThreshold *= layoutManager.spanCount
     }
 
@@ -96,13 +86,6 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
             onLoadMore(currentPage, totalItemCount, view)
             loading = true
         }
-    }
-
-    // Call this method whenever performing new searches
-    fun resetState() {
-        this.currentPage = this.startingPageIndex
-        this.previousTotalItemCount = 0
-        this.loading = true
     }
 
     // Defines the process for actually loading more data based on page

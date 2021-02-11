@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object PokemonManager {
 
+    //the url of the next page, null if no more available
     var nextUrl: String? = null
         private set
 
@@ -37,11 +38,15 @@ object PokemonManager {
     fun setPokemon(pokemon: Pokemon) {
         this.pokemon = pokemon
     }
-
+    //sets the listener for the api call
     fun setCallBack(pokemonDetailsCallback: PokemonDetailsCallback) {
         this.pokemonDetailsCallback = pokemonDetailsCallback
     }
-
+    /**
+     * When the user pressed the back button before the details have been fetched
+     * cancels the call to avoid false information and unnecessary fetching.
+     * Also sets the listener to null
+     * */
     fun cancelDetailsCall() {
         pokemonDetailsCallback = null
         if (pokemonDetailsCall != null) {
@@ -52,6 +57,10 @@ object PokemonManager {
         }
     }
 
+    /**
+     * Fetches the pokemon details based on the clicked pokemon's url.
+     * When the call is done, notifies the listener
+     */
     fun getPokemonDetails() {
 
         if (pokemon == null)
@@ -73,6 +82,10 @@ object PokemonManager {
         })
     }
 
+    /**
+     * Called when the user opens the app and fetches the first page of the pokemon list
+     * When the data is fetched, sets the RecyclerView's list
+     */
     fun getPokemonList(pokemonRecyclerViewAdapter: PokemonRecyclerViewAdapter) {
 
         val call = pokemonApiInterface.getPokemonList()
@@ -92,9 +105,8 @@ object PokemonManager {
 
         })
     }
-
+    //Called when a new page is needed, returns if the nextUrl is null (no more page available)
     fun getNextPage(pokemonRecyclerViewAdapter: PokemonRecyclerViewAdapter) {
-
         if (nextUrl == null)
             return
         val call = pokemonApiInterface.getPokemonListByUrl(nextUrl!!)
