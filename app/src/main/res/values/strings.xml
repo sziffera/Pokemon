@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pokemon</string>
+    <string name="pokemon">pokemon</string>
+    <string name="cannot_fetch">Cannot fetch pokemon details</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="non_hidden">Non-hidden abilities</string>
+    <string name="pokemon_avatar">pokemon avatar</string>
+</resources>
